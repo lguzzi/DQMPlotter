@@ -14,7 +14,7 @@ For the moment, plotting by the three scripts
 for example:
 
 ```bash
-python3 plotTrackProperties.py --pt-rebin --output out_directory
+python3 plotEfficiencies.py --pt-rebin --output out_directory
 ```
 
 having defined correctly the needed era inside the file.  
