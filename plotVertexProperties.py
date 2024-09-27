@@ -3,10 +3,9 @@ from ROOT import *
 ROOT.gStyle.SetOptStat(0)
 ROOT.gROOT.SetBatch(True)
 
-from eras.Run2024   import Run2024Gv1_DQMGUI_SHM,Run2024Gv2_DQMGUI_SHM,Run2024H_DQMGUI_SHM,Run2024HlowPU_DQMGUI_SHM
-from vertexProperties import *
-from cls.DQMCanvas  import DQMCanvasCMS
-from eras.Run2024   import Run2024G_beforeCMSALCA293_DQMGUI_SHM,Run2024G_afterCMSALCA293_beforeCMSALCA294_DQMGUI_SHM,Run2024G_afterCMSALCA294_DQMGUI_SHM
+from cls.DQMCanvas      import DQMCanvasCMS
+from vertexProperties   import *
+from eras.Run2024       import *
 
 import sys,os,subprocess
 
@@ -16,9 +15,12 @@ parser.add_argument('--output', required=True)
 parser.add_argument('--verbose', action='store_true')
 args = parser.parse_args()
 
-
 verbose = args.verbose
-eras = [Run2024Gv1_DQMGUI_SHM,Run2024G_beforeCMSALCA293_DQMGUI_SHM,Run2024G_afterCMSALCA293_beforeCMSALCA294_DQMGUI_SHM,Run2024G_afterCMSALCA294_DQMGUI_SHM]
+eras = [
+    Run2024Gv1_DQMGUI_SHM,
+    Run2024Gv2_DQMGUI_SHM,
+    Run2024H_DQMGUI_SHM,
+]
 
 for era in eras: era.fetch(verbose=True)
 runs = [dict(e) for e in eras]
@@ -29,10 +31,6 @@ plotDir = args.output
 
 collections  = ["hltPixelVertices", "hltTrimmedPixelVertices", "hltVerticesPFFilter"]
 canv = DQMCanvasCMS(lumitext='Run 3 (13.6 TeV)', extratext='Internal')
-
-# ----------------
-# Plotting
-# ----------------
 
 print("\nStarting...")
 

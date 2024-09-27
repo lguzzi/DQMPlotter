@@ -1,19 +1,22 @@
 import ROOT
 from ROOT import *
-
-from trackProperties import *
-
 import sys,os,subprocess
-from eras.Run2024   import Run2024Gv1_DQMGUI_SHM,Run2024Gv2_DQMGUI_SHM,Run2024H_DQMGUI_SHM,Run2024HlowPU_DQMGUI_SHM
-from cls.DQMCanvas  import DQMCanvasCMS
+
+from cls.DQMCanvas      import DQMCanvasCMS
+from trackProperties    import *
+from eras.Run2024       import *
 
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('--output', required=True)
+parser.add_argument('--output'  , required=True)
+parser.add_argument('--verbose' , action='store_true')
 args = parser.parse_args()
-from eras.Run2024   import Run2024G_beforeCMSALCA293_DQMGUI_SHM,Run2024G_afterCMSALCA293_beforeCMSALCA294_DQMGUI_SHM,Run2024G_afterCMSALCA294_DQMGUI_SHM
 
-eras = [Run2024Gv1_DQMGUI_SHM,Run2024G_beforeCMSALCA293_DQMGUI_SHM,Run2024G_afterCMSALCA293_beforeCMSALCA294_DQMGUI_SHM,Run2024G_afterCMSALCA294_DQMGUI_SHM]
+eras = [
+    Run2024Gv1_DQMGUI_SHM,
+    Run2024Gv2_DQMGUI_SHM,
+    Run2024H_DQMGUI_SHM,
+]
 
 for era in eras: era.fetch(verbose=True)
 runs = [dict(e) for e in eras]
@@ -21,21 +24,9 @@ runs = {r['label']: r for r in runs}
 selectedRuns = [k for k in runs.keys()]
 
 plotDir = args.output
+verbose = args.verbose
 
-
-# ----------------
-# Other settings
-# ----------------
-
-# Select verbosity level
-verbose = False
-
-# Plot "full" tracks and/or pixel tracks
 collections  = ["pixelTracks", "tracks", "doubletRecoveryTracks"]
-
-# ----------------
-# Plotting
-# ----------------
 
 print("\nStarting...")
 

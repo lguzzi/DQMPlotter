@@ -1,20 +1,19 @@
 import ROOT
 from ROOT import *
 
+from cls.DQMCanvas  import DQMCanvasCMS
+from eras.Run2024   import *
 from efficienciesAndFakeRates import *
 
 import sys,os,subprocess
 from array import array
 import numpy as np
 
-from eras.Run2023   import Run2023D_DQMGUI_SHM
-from eras.Run2024   import Run2024C_DQMGUI_SHM, Run2024D_DQMGUI_SHM, Run2024E_DQMGUI_SHM
-from eras.Run2024   import Run2024Gv1_DQMGUI_SHM,Run2024Gv2_DQMGUI_SHM,Run2024H_DQMGUI_SHM,Run2024HlowPU_DQMGUI_SHM
-from eras.Run2024   import Run2024G_beforeCMSALCA293_DQMGUI_SHM,Run2024G_afterCMSALCA293_beforeCMSALCA294_DQMGUI_SHM,Run2024G_afterCMSALCA294_DQMGUI_SHM
-from cls.DQMCanvas  import DQMCanvasCMS
-
-#eras = [Run2024Gv1_DQMGUI_SHM,Run2024PreHV_DQMGUI_SHM,Run2024PostHV_DQMGUI_SHM]
-eras = [Run2024Gv1_DQMGUI_SHM,Run2024G_beforeCMSALCA293_DQMGUI_SHM,Run2024G_afterCMSALCA293_beforeCMSALCA294_DQMGUI_SHM,Run2024G_afterCMSALCA294_DQMGUI_SHM]
+eras = [
+    Run2024Gv1_DQMGUI_SHM,
+    Run2024Gv2_DQMGUI_SHM,
+    Run2024H_DQMGUI_SHM,
+]
 for era in eras: era.fetch(verbose=True)
 
 runs = [dict(e) for e in eras]
