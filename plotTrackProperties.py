@@ -1,5 +1,4 @@
 import ROOT
-from ROOT import *
 import sys,os,subprocess
 
 from cls.DQMCanvas      import DQMCanvasCMS
@@ -13,9 +12,10 @@ parser.add_argument('--verbose' , action='store_true')
 args = parser.parse_args()
 
 eras = [
-    Run2024Gv1_DQMGUI_SHM,
-    Run2024Gv2_DQMGUI_SHM,
-    Run2024H_DQMGUI_SHM,
+    #Run2024Gv1_DQMGUI_SHM,
+    #Run2024_beforeCMSALCA293_DQMGUI_SHM,
+    Run2024_afterCMSALCA293_beforeCMSALCA294_DQMGUI_SHM,
+    Run2024G_afterCMSALCA294_DQMGUI_SHM
 ]
 
 for era in eras: era.fetch(verbose=True)
@@ -78,7 +78,7 @@ for col in collections:
             # Add histograms from input files
             for i, filename in enumerate(runs[run]['files']):
                 if verbose: print(" - " + filename)
-                files[filename] = TFile(filename)
+                files[filename] = ROOT.TFile(filename)
                 dir = "/DQMData/Run %s/HLT/Run summary/Tracking/%s/"%(runs[run]['dirs'][i],col)
 
                 if i == 0:
@@ -223,7 +223,7 @@ for col in collections:
         upperPad.RedrawAxis()
         ratioPad.RedrawAxis()
 
-        latexCMS = TLatex()
+        latexCMS = ROOT.TLatex()
         latexCMS.SetNDC(True)
 
         # COM energy
@@ -243,10 +243,10 @@ for col in collections:
         latexCMS.SetTextSize(30)
         latexCMS.DrawLatex(0.24,0.915,"Preliminary")
 
-        leg = TLegend(0.155, 0.7, 0.905, 0.875)
+        leg = ROOT.TLegend(0.155, 0.7, 0.905, 0.875)
         leg.SetMargin(0.125)
         leg.SetTextFont(43)
-        leg.SetTextSize(20)
+        leg.SetTextSize(18)
         leg.SetBorderSize(1)
         if len(selectedRuns) > 3:
             leg.SetNColumns(2)

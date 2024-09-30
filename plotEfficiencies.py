@@ -1,5 +1,5 @@
 import ROOT
-from ROOT import *
+from math import sqrt
 
 from cls.DQMCanvas  import DQMCanvasCMS
 from eras.Run2024   import *
@@ -10,9 +10,10 @@ from array import array
 import numpy as np
 
 eras = [
-    Run2024Gv1_DQMGUI_SHM,
-    Run2024Gv2_DQMGUI_SHM,
-    Run2024H_DQMGUI_SHM,
+    #Run2024Gv1_DQMGUI_SHM,
+    #Run2024_beforeCMSALCA293_DQMGUI_SHM,
+    Run2024_afterCMSALCA293_beforeCMSALCA294_DQMGUI_SHM,
+    Run2024G_afterCMSALCA294_DQMGUI_SHM
 ]
 for era in eras: era.fetch(verbose=True)
 
@@ -93,7 +94,7 @@ for plot in efficienciesAndFakeRates:
         # Add numerators and denominators separately
         for i, filename in enumerate(runs[run]['files']):
             if verbose: print(" - " + filename)
-            files[filename] = TFile(filename)
+            files[filename] = ROOT.TFile(filename)
             dir = "/DQMData/Run %s/HLT/Run summary/Tracking/ValidationWRTOffline/hltMergedWrtHighPurityPV/"%runs[run]['dirs'][i]
 
             if i == 0:
@@ -111,8 +112,8 @@ for plot in efficienciesAndFakeRates:
         if verbose: print("Den: " + str(hists['sumDen'].Integral()))
 
         if ptRebinning and "_pt" in plot:
-            newNumHist = TH1F("", "", len(ptBins)-1, ptBins)
-            newDenHist = TH1F("", "", len(ptBins)-1, ptBins)
+            newNumHist = ROOT.TH1F("", "", len(ptBins)-1, ptBins)
+            newDenHist = ROOT.TH1F("", "", len(ptBins)-1, ptBins)
 
             newNumHist.Sumw2()
             newDenHist.Sumw2()
@@ -260,14 +261,14 @@ for plot in efficienciesAndFakeRates:
     upperPad.RedrawAxis()
     ratioPad.RedrawAxis()
 
-    latexCMS = TLatex()
+    latexCMS = ROOT.TLatex()
     latexCMS.SetNDC(True)
 
     # Legend
-    leg = TLegend(0.155, 0.7, 0.905, 0.875)
+    leg = ROOT.TLegend(0.155, 0.7, 0.905, 0.875)
     leg.SetMargin(0.125)
     leg.SetTextFont(43)
-    leg.SetTextSize(30)
+    leg.SetTextSize(18)
     leg.SetBorderSize(1)
     if len(selectedRuns) > 3:
         leg.SetNColumns(2)
