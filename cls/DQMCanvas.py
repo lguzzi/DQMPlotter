@@ -1,4 +1,5 @@
 import ROOT
+import sys ; sys.path.append('.')
 from cls.DQMLatex import DQMLatex
 
 class DQMCanvas (ROOT.TCanvas):
@@ -15,7 +16,7 @@ class DQMCanvasCMS(DQMCanvas):
   ''' apply default CMS cosmetics to the canvas
   '''
   def __init__(self, **kwargs):
-    super().__init__('c1','',800,800)
+    super().__init__(kwargs.get('name', 'c1'),'',800,800)
     self.SetTopMargin(0.10)
     self.SetLeftMargin(0.05)
     self.SetRightMargin(0.05)
@@ -51,3 +52,26 @@ class DQMCanvasCMS(DQMCanvas):
     self.extratext.Draw()
     self.lumitext .Draw()
     super().Print(*args, **kwargs)
+
+class DQMRatioCanvasCMS(DQMCanvasCMS):
+  UP_BOTTOM_RATIO = 0.3
+  def __init__(self, **kwargs):
+    super().__init__(**kwargs)
+    self.Divide(1,2)
+    self.GetPad(1).SetPad(0, DQMRatioCanvasCMS.UP_BOTTOM_RATIO, 1, 1)
+    self.GetPad(2).SetPad(0, 0, 1, DQMRatioCanvasCMS.UP_BOTTOM_RATIO)
+    self.GetPad(1).SetBottomMargin(0)
+    self.GetPad(2).SetTopMargin(0)
+    self.GetPad(2).SetBottomMargin(0.3)
+
+if __name__ == '__main__':
+  can = DQMRatioCanvasCMS()
+  can.cd(1)
+  h = ROOT.TH1F('h', 'h', 100, -5, 5)
+  h.FillRandom('gaus', 1000)
+  h.Draw()
+  can.cd(2)
+  h.Draw()
+  can.SaveAs('test.pdf')
+  can.Print('test.png')
+  import pdb; pdb.set_trace()

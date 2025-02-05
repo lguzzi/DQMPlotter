@@ -1,4 +1,5 @@
 *work in progress*
+currently requires root<=6.30 due to a bug (?) caused by the custom python classes which inherit from ROOT classes
 
 plot DQM files. The code will try to drive away from a single-script approach to a class-based approach, but this is a work in progress.
 

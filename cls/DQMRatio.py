@@ -1,17 +1,13 @@
 import ROOT
-class DQMRatio(ROOT.TRatioPlot):
-  COLORS = [i+1 for i in range range(100)]
-  ''' custom class to handle ratio plots.
+from cls.DQMCanvas import DQMCanvasCMS
+import os
+
+class DQMRatioPlot(ROOT.TH1F):
+  ''' class to handle ratio plots cosmetics. 
+  We do not use TRatioPlot because it brings more problems than solutions.
   '''
-  def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.SetSeparationMargin(0.0)
-    self.SetSplitFraction(0.2)
-  
-  def Draw(self, *args, **kwargs):
-    ''' apply cosmetics before drawing.
-    '''
-    for hist in self.GetUpperPad().GetListOfPrimitives():
-      tar.SetLineColor(DQMPlotter1D.COLORS[ii])
-      tar.SetMarkerColor(DQMPlotter1D.COLORS[ii])
-    super().Draw(*args, **kwargs)
+  def __init__(self, numerator, denominator):
+    numerator.Sumw2()
+    denominator.Sumw2()
+    super().__init__(numerator)
+    self.Divide(denominator)

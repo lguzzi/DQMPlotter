@@ -2,7 +2,8 @@ import ROOT
 from math import sqrt
 
 from cls.DQMCanvas  import DQMCanvasCMS
-from eras.Run2024   import *
+from eras.DPN2024   import *
+from eras.custom    import *
 from efficienciesAndFakeRates import *
 
 import sys,os,subprocess
@@ -10,12 +11,14 @@ from array import array
 import numpy as np
 
 eras = [
-    #Run2024Gv1_DQMGUI_SHM,
-    #Run2024_beforeCMSALCA293_DQMGUI_SHM,
-    Run2024_afterCMSALCA293_beforeCMSALCA294_DQMGUI_SHM,
-    Run2024G_afterCMSALCA294_DQMGUI_SHM
+    #Run2023_postBPix    ,
+    Run2024_preFPix     ,
+    Run2024_interFPix  ,
+    Run2024_postFPix   ,
+    #Run2024_singleRunPre,
+    #Run2024_singleRunPost,
 ]
-for era in eras: era.fetch(verbose=True)
+#for era in eras: era.fetch(verbose=True)
 
 runs = [dict(e) for e in eras]
 runs = {r['label']: r for r in runs}
@@ -96,6 +99,7 @@ for plot in efficienciesAndFakeRates:
             if verbose: print(" - " + filename)
             files[filename] = ROOT.TFile(filename)
             dir = "/DQMData/Run %s/HLT/Run summary/Tracking/ValidationWRTOffline/hltMergedWrtHighPurityPV/"%runs[run]['dirs'][i]
+            #dir = "/DQMData/Run %s/HLT/Run summary/Tracking/ValidationWRTOffline/hltMergedTracksPPOnAAWrtHighPurity/"%runs[run]['dirs'][i]
 
             if i == 0:
                 hists['sumNum'] = files[filename].Get(dir+efficienciesAndFakeRates[plot]['num'])

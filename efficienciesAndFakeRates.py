@@ -17,7 +17,7 @@ efficienciesAndFakeRates = {
         'title' : 'Efficiency vs phi;Offline track phi;Efficiency w.r.t. offline tracks',
         'num'   : 'ref_matched_phi',
         'den'   : 'ref_phi',
-         'yRange': [0.71, 0.89],
+         'yRange': [0.4, 1.1],
          'rRange': [0.91,1.09],
     },
     "Eff_dxy" : {
